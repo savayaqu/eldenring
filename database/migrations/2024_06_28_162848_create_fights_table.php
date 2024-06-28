@@ -16,7 +16,7 @@ return new class extends Migration
             $table->boolean('status');
             $table->integer('attempts');
             $table->foreignId('user_id')->constrained('users','id');
-            $table->foreignId('fight_id')->constrained('fights','id');
+            $table->foreignId('boss_id')->constrained('bosses','id');
             $table->timestamps();
         });
     }

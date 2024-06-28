@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class User extends Model
 {
     use HasFactory;
-    protected $fillable = ['name', 'password', 'token'];
+    protected $fillable = ['nickname', 'password', 'api_token', 'role_id'];
     public function fights()
     {
      return   $this->hasMany(Fight::class);

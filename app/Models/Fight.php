@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Fight extends Model
 {
     use HasFactory;
-    protected $fillable = ['status', 'attempts'];
+    protected $fillable = ['status', 'attempts', 'boss_id', 'user_id'];
     public function user()
     {
         return $this->belongsTo(User::class);
