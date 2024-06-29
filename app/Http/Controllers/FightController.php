@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\ApiException;
 use App\Http\Requests\AddFightRequest;
 use App\Http\Requests\EditFightRequest;
+use App\Models\Boss;
 use App\Models\Fight;
 use Illuminate\Http\Request;
 
@@ -11,6 +13,10 @@ class FightController extends Controller
 {
     public function addedit(AddFightRequest $request, int $boss_id) {
         $user = auth()->user();
+        $boss = Boss::find($boss_id);
+        if(!$boss) {
+            throw  new ApiException(404, 'Boss not found');
+        }
         $fight = Fight::where('boss_id', $boss_id)->where('user_id', $user->id)->first();
         if($request->status != 0) {
             $status = $request->status;
@@ -32,7 +38,7 @@ class FightController extends Controller
                 'attempts' => $attempts,
             ]);
             $newFight->save();
-            return response()->json(['data' => $newFight], 201);
+            return response()->json(['fight' => $newFight, 'boss' => $boss], 201);
         }
         else {
             $fight->fill([
@@ -42,7 +48,7 @@ class FightController extends Controller
                 'attempts' => $attempts,
             ]);
             $fight->save();
-            return response()->json(['data' => $fight], 200);
+            return response()->json(['fight' => $fight, 'boss' => $boss], 200);
         }
     }
 }

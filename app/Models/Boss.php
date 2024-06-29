@@ -8,10 +8,17 @@ use Illuminate\Database\Eloquent\Model;
 class Boss extends Model
 {
     use HasFactory;
-    protected $fillable = ['name'];
+
+    protected $fillable = [
+        'external_id',
+        'name',
+        'image',
+        'region',
+        'description',
+        'location',
+    ];
     public function fights()
     {
         return $this->hasMany(Fight::class);
     }
-
 }
