@@ -11,26 +11,32 @@ use Illuminate\Http\Request;
 
 class FightController extends Controller
 {
-    public function addedit(AddFightRequest $request, int $boss_id) {
+    public function addedit(AddFightRequest $request, int $boss_id)
+    {
         $user = auth()->user();
         $boss = Boss::find($boss_id);
-        if(!$boss) {
-            throw  new ApiException(404, 'Boss not found');
+
+        if (!$boss) {
+            throw new ApiException(404, 'Boss not found');
         }
+
         $fight = Fight::where('boss_id', $boss_id)->where('user_id', $user->id)->first();
-        if($request->status != 0) {
+
+        // Initialize status and attempts with existing values or default to 0
+        $status = $fight ? $fight->status : 0;
+        $attempts = $fight ? $fight->attempts : 0;
+
+        // Update status if provided in request
+        if ($request->has('status')) {
             $status = $request->status;
         }
-        else {
-            $status = 0;
-        }
-        if($request->attempts != 0) {
+
+        // Update attempts if provided in request
+        if ($request->has('attempts')) {
             $attempts = $request->attempts;
         }
-        else {
-            $attempts = 0;
-        }
-        if(!$fight) {
+
+        if (!$fight) {
             $newFight = new Fight([
                 'boss_id' => $boss_id,
                 'user_id' => $user->id,
@@ -39,11 +45,8 @@ class FightController extends Controller
             ]);
             $newFight->save();
             return response()->json(['fight' => $newFight, 'boss' => $boss], 201);
-        }
-        else {
+        } else {
             $fight->fill([
-                'boss_id' => $boss_id,
-                'user_id' => $user->id,
                 'status' => $status,
                 'attempts' => $attempts,
             ]);

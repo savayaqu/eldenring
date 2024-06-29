@@ -10,12 +10,12 @@ class Boss extends Model
     use HasFactory;
 
     protected $fillable = [
-        'external_id',
         'name',
-        'image',
-        'region',
-        'description',
-        'location',
+        'boss_image',
+        'health',
+        'remembrance',
+        'requires',
+        'map'
     ];
     public function fights()
     {

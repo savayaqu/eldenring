@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('bosses', function (Blueprint $table) {
             $table->id();
-            $table->string('external_id')->unique();
-            $table->string('name')->nullable();
-            $table->string('image')->nullable();
-            $table->string('region')->nullable();
-            $table->text('description')->nullable();
-            $table->string('location')->nullable();
+            $table->string('name');
+            $table->string('boss_image');
+            $table->integer('health');
+            $table->boolean('remembrance');
+            $table->string('requires');
+            $table->string('map')->nullable();
             $table->timestamps();
         });
     }

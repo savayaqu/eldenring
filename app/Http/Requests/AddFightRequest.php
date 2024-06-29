@@ -11,7 +11,7 @@ class AddFightRequest extends ApiRequest
     {
         return [
             'status' => ' integer|between:0,1',
-            'attempts' => ' integer|between:1,10000',
+            'attempts' => ' integer|between:0,10000',
         ];
     }
 }
